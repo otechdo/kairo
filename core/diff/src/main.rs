@@ -1,5 +1,8 @@
+use colored_truecolor::Colorize;
 use ignore::WalkBuilder;
-use std::{io::Error, path::Path};
+use similar::{ChangeTag, TextDiff};
+
+use std::{fs::read_to_string, io::Error, path::Path};
 const CHRONOS: &str = "./.chronos/tree/";
 
 fn data(dir: Option<String>) -> (Vec<String>, Vec<String>) {
@@ -51,15 +54,33 @@ fn data(dir: Option<String>) -> (Vec<String>, Vec<String>) {
     }
     (dirs, files)
 }
+
+fn cargo_project(p: &Path) -> bool {
+    Path::new(format!("{}/Cargo.toml", p.display()).as_str()).exists()
+}
 fn diff() -> Result<(), Error> {
     let mut new_files: Vec<String> = Vec::new();
     let mut new_directories: Vec<String> = Vec::new();
+    let mut modified_files: Vec<String> = Vec::new();
+    let mut new_project: Vec<String> = Vec::new();
+    let mut projects: Vec<String> = Vec::new();
 
     let tree: (Vec<String>, Vec<String>) = data(Some(CHRONOS.to_string()));
     let src: (Vec<String>, Vec<String>) = data(None);
+    dbg!(&tree, &src);
     if tree.0.ne(&src.0) || tree.1.ne(&src.1) {
         for d in &src.0 {
             if d.ne(&".") {
+                if cargo_project(Path::new(d).as_ref()) {
+                    projects.push(d.to_string());
+                    if Path::new(d.replace("./", CHRONOS).as_str())
+                        .exists()
+                        .eq(&false)
+                    {
+                        new_project.push(d.to_string().replace("./", ""));
+                    }
+                }
+
                 if Path::new(d.replace("./", CHRONOS).as_str())
                     .is_dir()
                     .eq(&false)
@@ -68,41 +89,70 @@ fn diff() -> Result<(), Error> {
                 }
             }
         }
-        if new_directories.len() > 1 {
-            println!("\nNew directories : \n");
+        if new_project.len() > 1 {
+            println!("\n     {}\n", "@projects".green());
         } else {
-            println!("\nNew directory : \n");
+            println!("\n     {}\n", "@project".green());
+        }
+        for directory in &new_project {
+            println!("\t\t{} {}", "+".green(), directory.green());
+        }
+        if new_directories.len() > 1 {
+            println!("\n     {}\n", "@dirs".blue());
+        } else {
+            println!("\n     {}\n", "@dir".blue());
         }
         for directory in &new_directories {
-            println!("\t{directory}");
+            println!("\t\t{} {}", "+".blue(), directory.blue());
         }
         for f in &src.1 {
             if f.ne(&".") {
-                if Path::new(f.replace("./", CHRONOS).as_str())
-                    .is_file()
-                    .eq(&false)
-                {
+                let old: String = f.replace("./", CHRONOS);
+                if Path::new(old.as_str()).is_file().eq(&false) {
                     new_files.push(f.to_string().replace("./", ""));
+                } else {
+                    modified_files.push(f.to_string());
                 }
             }
         }
-
         if new_files.len() > 1 {
-            println!("\nNew files : \n");
+            println!("\n    {}\n", "@files".white());
         } else {
-            println!("\nNew file : \n");
+            println!("\n    {}\n", "@file".white());
         }
         for file in &new_files {
-            println!("\t{file}");
+            println!("\t\t{} {}", "+".white(), file.white());
+        }
+        println!("\n    {}\n", "@modif".yellow());
+        for file in &modified_files {
+            if let Ok(old) = read_to_string(file.replace("./", CHRONOS).as_str()) {
+                if let Ok(new) = read_to_string(file.as_str()) {
+                    let diff = TextDiff::from_lines(old.as_str(), new.as_str());
+                    for change in diff.iter_all_changes() {
+                        match change.tag() {
+                            ChangeTag::Delete => {
+                                print!("{} {}", "-".red(), change.to_string().red());
+                            }
+                            ChangeTag::Insert => {
+                                print!("{} {}", "+".green(), change.to_string().green());
+                            }
+                            ChangeTag::Equal => {
+                            }
+                        }
+                    }
+                }
+            }
         }
     } else {
         println!("Nothing to compare");
     }
     println!(
-        "\nNew dirs  : {}\nNew files : {}\n",
+        "\nNew dirs  : {}\nNew files : {}\nModified  : {}",
         new_directories.len(),
         new_files.len(),
+        modified_files.len(),
     );
+    println!();
     Ok(())
 }
 fn main() -> Result<(), Error> {

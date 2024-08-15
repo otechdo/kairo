@@ -6,3 +6,4 @@ edition = "2021"
 [dependencies]
 colored_truecolor = "0.1.0"
 ignore = "0.4.22"
+similar = "2.6.0"
