@@ -14,17 +14,15 @@ fn data(dir: Option<String>) -> (Vec<String>, Vec<String>) {
             .standard_filters(true)
             .threads(4)
             .build();
-        for d in w {
-            if let Ok(x) = d {
-                let p = x.path();
-                if p.is_dir() {
-                    if let Some(d) = p.to_str() {
-                        dirs.push(d.to_string());
-                    }
-                } else if p.is_file() {
-                    if let Some(d) = p.to_str() {
-                        files.push(d.to_string());
-                    }
+        for d in w.flatten() {
+            let p = d.path();
+            if p.is_dir() {
+                if let Some(d) = p.to_str() {
+                    dirs.push(d.to_string());
+                }
+            } else if p.is_file() {
+                if let Some(d) = p.to_str() {
+                    files.push(d.to_string());
                 }
             }
         }
@@ -36,17 +34,15 @@ fn data(dir: Option<String>) -> (Vec<String>, Vec<String>) {
             .standard_filters(true)
             .threads(4)
             .build();
-        for d in w {
-            if let Ok(x) = d {
-                let p = x.path();
-                if p.is_dir() {
-                    if let Some(d) = p.to_str() {
-                        dirs.push(d.to_string());
-                    }
-                } else if p.is_file() {
-                    if let Some(d) = p.to_str() {
-                        files.push(d.to_string());
-                    }
+        for d in w.flatten() {
+            let p = d.path();
+            if p.is_dir() {
+                if let Some(d) = p.to_str() {
+                    dirs.push(d.to_string());
+                }
+            } else if p.is_file() {
+                if let Some(d) = p.to_str() {
+                    files.push(d.to_string());
                 }
             }
         }
@@ -67,11 +63,20 @@ fn diff() -> Result<(), Error> {
 
     let tree: (Vec<String>, Vec<String>) = data(Some(CHRONOS.to_string()));
     let src: (Vec<String>, Vec<String>) = data(None);
-
+    for f in &src.1 {
+        if f.ne(&".") {
+            let old: String = f.replace("./", CHRONOS);
+            if Path::new(old.as_str()).is_file().eq(&false) {
+                new_files.push(f.to_string().replace("./", ""));
+            } else {
+                modified_files.push(f.to_string());
+            }
+        }
+    }
     if tree.0.ne(&src.0) || tree.1.ne(&src.1) {
         for d in &src.0 {
             if d.ne(&".") {
-                if cargo_project(Path::new(d).as_ref()) {
+                if cargo_project(Path::new(d)) {
                     projects.push(d.to_string());
                     if Path::new(d.replace("./", CHRONOS).as_str())
                         .exists()
@@ -80,7 +85,6 @@ fn diff() -> Result<(), Error> {
                         new_project.push(d.to_string().replace("./", ""));
                     }
                 }
-
                 if Path::new(d.replace("./", CHRONOS).as_str())
                     .is_dir()
                     .eq(&false)
@@ -89,41 +93,6 @@ fn diff() -> Result<(), Error> {
                 }
             }
         }
-        if new_project.len() > 1 {
-            println!("\n     {}\n", "@projects".green());
-        } else {
-            println!("\n     {}\n", "@project".green());
-        }
-        for directory in &new_project {
-            println!("\t\t{} {}", "+".green(), directory.green());
-        }
-        if new_directories.len() > 1 {
-            println!("\n     {}\n", "@dirs".blue());
-        } else {
-            println!("\n     {}\n", "@dir".blue());
-        }
-        for directory in &new_directories {
-            println!("\t\t{} {}", "+".blue(), directory.blue());
-        }
-        for f in &src.1 {
-            if f.ne(&".") {
-                let old: String = f.replace("./", CHRONOS);
-                if Path::new(old.as_str()).is_file().eq(&false) {
-                    new_files.push(f.to_string().replace("./", ""));
-                } else {
-                    modified_files.push(f.to_string());
-                }
-            }
-        }
-        if new_files.len() > 1 {
-            println!("\n    {}\n", "@files".white());
-        } else {
-            println!("\n    {}\n", "@file".white());
-        }
-        for file in &new_files {
-            println!("\t\t{} {}", "+".white(), file.white());
-        }
-        println!("\n    {}\n", "@modif".yellow());
         for file in &modified_files {
             if let Ok(old) = read_to_string(file.replace("./", CHRONOS).as_str()) {
                 if let Ok(new) = read_to_string(file.as_str()) {
@@ -145,13 +114,7 @@ fn diff() -> Result<(), Error> {
     } else {
         println!("Nothing to compare");
     }
-    println!(
-        "\nNew dirs  : {}\nNew files : {}\nModified  : {}",
-        new_directories.len(),
-        new_files.len(),
-        modified_files.len(),
-    );
-    println!();
+    println!("\nrun kairo_commit to commit changes\n");
     Ok(())
 }
 fn main() -> Result<(), Error> {
