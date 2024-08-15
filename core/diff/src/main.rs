@@ -67,7 +67,7 @@ fn diff() -> Result<(), Error> {
 
     let tree: (Vec<String>, Vec<String>) = data(Some(CHRONOS.to_string()));
     let src: (Vec<String>, Vec<String>) = data(None);
-    dbg!(&tree, &src);
+
     if tree.0.ne(&src.0) || tree.1.ne(&src.1) {
         for d in &src.0 {
             if d.ne(&".") {
@@ -136,8 +136,7 @@ fn diff() -> Result<(), Error> {
                             ChangeTag::Insert => {
                                 print!("{} {}", "+".green(), change.to_string().green());
                             }
-                            ChangeTag::Equal => {
-                            }
+                            ChangeTag::Equal => {}
                         }
                     }
                 }
