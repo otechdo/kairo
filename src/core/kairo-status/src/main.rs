@@ -1,53 +1,47 @@
-use colored_truecolor::Colorize;
-use ignore::WalkBuilder;
-
-use std::{io::Error, path::Path};
+use std::{
+    fs::{read_dir, read_to_string},
+    io::Error,
+    path::Path,
+};
 const CHRONOS: &str = "./.chronos/tree/";
 
-fn data(dir: Option<String>) -> (Vec<String>, Vec<String>) {
+fn parse_directory(dir: &str) -> (Vec<String>, Vec<String>) {
     let mut dirs: Vec<String> = Vec::new();
     let mut files: Vec<String> = Vec::new();
-    if dir.is_none() {
-        let w = WalkBuilder::new(".")
-            .add_custom_ignore_filename(".ignore")
-            .standard_filters(true)
-            .threads(4)
-            .build();
-        for d in w.flatten() {
-            let p = d.path();
-            if p.is_dir() {
-                if let Some(d) = p.to_str() {
-                    dirs.push(d.to_string());
-                }
-            } else if p.is_file() {
-                if let Some(d) = p.to_str() {
-                    files.push(d.to_string());
-                }
-            }
-        }
-        return (dirs, files);
-    }
-    if let Some(p) = dir {
-        let w = WalkBuilder::new(p.as_str())
-            .add_custom_ignore_filename(".ignore")
-            .standard_filters(true)
-            .threads(4)
-            .build();
-        for d in w.flatten() {
-            let p = d.path();
-            if p.is_dir() {
-                if let Some(d) = p.to_str() {
-                    dirs.push(d.to_string());
-                }
-            } else if p.is_file() {
-                if let Some(d) = p.to_str() {
-                    files.push(d.to_string());
+    if let Ok(entries) = read_dir(dir) {
+        for entry in entries {
+            if let Ok(entry) = entry {
+                let path = entry.path();
+                if path.is_file() {
+                    let file: String = path.display().to_string();
+                    if check(file.as_str()).eq(&false) {
+                        files.push(file);
+                    }
+                } else if path.is_dir() {
+                    let dir: String = path.display().to_string();
+                    if check(dir.as_str()).eq(&false) {
+                        dirs.push(dir);
+                    }
+                    if let Some(d) = path.to_str() {
+                        parse_directory(d);
+                    }
                 }
             }
         }
-        return (dirs, files);
     }
     (dirs, files)
+}
+fn check(w: &str) -> bool {
+    if let Ok(content) = read_to_string("./.ignore") {
+        return content.contains(w.to_string().replace("./", "").as_str());
+    }
+    return false;
+}
+fn data(dir: Option<String>) -> (Vec<String>, Vec<String>) {
+    if let Some(d) = dir {
+        return parse_directory(d.as_str());
+    }
+    parse_directory(".")
 }
 
 fn cargo_project(p: &Path) -> bool {
@@ -93,33 +87,34 @@ fn diff() -> Result<(), Error> {
             }
         }
         if new_project.len() > 1 {
-            println!("\n     {}\n", "@projects".green());
+            println!("\n     @projects\n");
         } else {
-            println!("\n     {}\n", "@project".green());
+            println!("\n     @project\n");
         }
         for directory in &new_project {
-            println!("\t\t{} {}", "+".green(), directory.green());
+            println!("\t\t+ {directory}");
         }
         if new_directories.len() > 1 {
-            println!("\n     {}\n", "@dirs".blue());
+            println!("\n     @dirs\n");
         } else {
-            println!("\n     {}\n", "@dir".blue());
+            println!("\n     @dir\n");
         }
         for directory in &new_directories {
-            println!("\t\t{} {}", "+".blue(), directory.blue());
+            println!("\t\t+ {directory}");
         }
 
         if new_files.len() > 1 {
-            println!("\n    {}\n", "@files".white());
+            println!("\n    @files\n");
         } else {
-            println!("\n    {}\n", "@file".white());
+            println!("\n    @file\n");
         }
         for file in &new_files {
-            println!("\t\t{} {}", "+".white(), file.white());
+            println!("\t\t+ {file}");
         }
     } else {
         println!("Nothing to compare");
     }
+    println!("\n     @stats\n");
     println!(
         "\n\t\tNew dirs  : {}\n\t\tNew files : {}\n\t\tModified  : {}",
         new_directories.len(),
