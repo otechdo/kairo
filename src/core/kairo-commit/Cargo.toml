@@ -8,3 +8,5 @@ repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-commit"
 readme = "README.md"
 
 [dependencies]
+chrono = "0.4.38"
+inquire = "0.7.5"

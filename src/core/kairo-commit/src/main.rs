@@ -1,13 +1,10 @@
 use chrono::{DateTime, Datelike, Local, Utc};
-use glob::glob;
-use ignore::WalkBuilder;
 use inquire::{Confirm, Select, Text};
 use std::env;
 use std::fs::{create_dir, read_to_string, File};
 use std::io::{Error, ErrorKind, Write};
 use std::path::Path;
 use std::process::Command;
-use tar::Builder;
 
 const MONTHS: [&str; 13] = [
     "",
@@ -342,27 +339,6 @@ fn get_why() -> String {
     }
     why
 }
-fn src(archive: &mut Builder<File>) -> Result<&mut Builder<File>, Error> {
-    for x in WalkBuilder::new(".")
-        .add_custom_ignore_filename(".ignore")
-        .standard_filters(true)
-        .threads(4)
-        .build()
-        .flatten()
-    {
-        let p = x.path();
-        if p.is_dir() {
-            assert!(archive.append_dir(p, p).is_ok());
-        } else if p.is_file() {
-            if let Some(path) = p.to_str() {
-                if let Ok(mut file) = File::open(path) {
-                    assert!(archive.append_file(p, &mut file).is_ok());
-                }
-            }
-        }
-    }
-    Ok(archive)
-}
 fn author() -> Result<String, env::VarError> {
     env::var("KAIRO_AUTHOR")
 }
@@ -399,15 +375,11 @@ fn commit() -> Result<(), Error> {
                     .replace("%email%", e.as_str());
 
                 let commit = format!("./.chronos/commits/{author}/{}/{m}/", date.year());
-                let commit_pattern: String = format!("{commit}/*.commit");
 
-                if let Ok(commits) = glob(commit_pattern.as_str()) {
-                    let commit_now = commits.count() + 1;
-                    if let Ok(mut file) = File::create_new(
-                        format!("{commit}/{m}/{commit_now}-{}.commit", date.timestamp()).as_str(),
-                    ) {
-                        assert!(writeln!(file, "{}", c).is_ok());
-                    }
+                if let Ok(mut file) =
+                    File::create_new(format!("{commit}/{m}/{}.commit", date.timestamp()).as_str())
+                {
+                    assert!(writeln!(file, "{}", c).is_ok());
                 }
 
                 return Ok(());
