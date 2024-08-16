@@ -1,6 +1,6 @@
 use chrono::{DateTime, Datelike, Local, Utc};
 use inquire::{Confirm, Select, Text};
-use std::env;
+use std::env::{self, var};
 use std::fs::{create_dir, read_to_string, File};
 use std::io::{Error, ErrorKind, Write};
 use std::path::Path;
@@ -261,10 +261,6 @@ fn confirm(msg: &str, default: bool) -> bool {
     false
 }
 
-fn email() -> Result<String, env::VarError> {
-    std::env::var("KAIRO_EMAIL")
-}
-
 fn commit_scope() -> String {
     let mut scope: String;
     loop {
@@ -340,7 +336,11 @@ fn get_why() -> String {
     why
 }
 fn author() -> Result<String, env::VarError> {
-    env::var("KAIRO_AUTHOR")
+    var("KAIRO_AUTHOR")
+}
+
+fn email() -> Result<String, env::VarError> {
+    var("KAIRO_EMAIL")
 }
 fn commit() -> Result<(), Error> {
     assert!(zuu().is_ok());

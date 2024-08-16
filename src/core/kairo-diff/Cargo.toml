@@ -8,4 +8,3 @@ repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-diff"
 readme = "README.md"
 
 [dependencies]
-similar = "2.6.0"
