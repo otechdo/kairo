@@ -191,6 +191,10 @@ name = "kairo-todo"
 version = "0.0.0"
 
 [[package]]
+name = "kairo-tree"
+version = "0.1.0"
+
+[[package]]
 name = "kairo-visualize"
 version = "0.0.0"
 

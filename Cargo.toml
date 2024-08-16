@@ -50,6 +50,6 @@ members = [
     "src/workflows/kairo-iso",
     "src/workflows/kairo-visualize",
     "src/workflows/kairo-work",
-    "src/remote/kairo-remote",
+    "src/remote/kairo-remote", "src/core/kairo-tree",
 ]
 resolver = "2"

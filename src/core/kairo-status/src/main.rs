@@ -20,10 +20,7 @@ fn parse_directory(dir: &str) -> (Vec<String>, Vec<String>) {
                 } else if path.is_dir() {
                     let dir: String = path.display().to_string();
                     if check(dir.as_str()).eq(&false) {
-                        dirs.push(dir);
-                    }
-                    if let Some(d) = path.to_str() {
-                        parse_directory(d);
+                        dirs.push(dir.to_string());
                     }
                 }
             }
@@ -104,15 +101,16 @@ fn diff() -> Result<(), Error> {
         }
 
         if new_files.len() > 1 {
-            println!("\n    @files\n");
+            println!("\n     @files\n");
         } else {
-            println!("\n    @file\n");
+            println!("\n     @file\n");
         }
         for file in &new_files {
             println!("\t\t+ {file}");
         }
     } else {
         println!("Nothing to compare");
+        return Ok(());
     }
     println!("\n     @stats\n");
     println!(
