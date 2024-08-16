@@ -1,0 +1,11 @@
+[package]
+name = "kairo_commit"
+version = "0.0.0"
+edition = "2021"
+
+[dependencies]
+chrono = "0.4.38"
+glob = "0.3.1"
+ignore = "0.4.22"
+inquire = { version = "0.7.5", features = ["console", "date", "editor"] }
+tar = "0.4.41"
