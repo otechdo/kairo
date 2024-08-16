@@ -1,0 +1,6 @@
+[package]
+name = "kairo-remote"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/otechdo/kairo/tree/main/src/remote/kairo-remote"
+[dependencies]

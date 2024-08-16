@@ -1,6 +1,0 @@
-[package]
-name = "kairo-dashboard"
-version = "0.0.0"
-edition = "2021"
-
-[dependencies]
