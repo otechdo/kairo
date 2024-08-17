@@ -399,7 +399,7 @@ version = "0.0.0"
 
 [[package]]
 name = "kairo-tree"
-version = "0.0.0"
+version = "0.0.1"
 
 [[package]]
 name = "kairo-visualize"
