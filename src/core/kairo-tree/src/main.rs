@@ -6,7 +6,6 @@ fn display_tree(dir: &str, prefix: &str) -> Result<(), Error> {
     if !dir.contains(".git") && !dir.contains(".chronos") && !dir.contains("target") {
         if let Ok(entries) = fs::read_dir(dir) {
             let entries_vec: Vec<_> = entries.collect();
-
             for (i, entry) in entries_vec.iter().enumerate() {
                 if let Ok(entry) = entry {
                     let path = entry.path();

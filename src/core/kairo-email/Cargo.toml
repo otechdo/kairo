@@ -6,5 +6,3 @@ description = ""
 license = "GPL-3.0-or-later"
 repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-email"
 readme = "README.md"
-
-[dependencies]
