@@ -1,9 +1,11 @@
 [package]
 name = "kairo-tree"
-version = "0.1.0"
+version = "0.0.0"
 edition = "2021"
 license = "GPL-3.0-or-later"
 repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-tree"
 readme = "README.md"
+description = "Display a repository like tree"
+keywords = ["repository", "kairo", "tree"]
 
 [dependencies]

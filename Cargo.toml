@@ -54,3 +54,4 @@ members = [
     "src/core/kairo-tree",
     "src/net/tux",
 ]
+resolver = "2"
