@@ -53,6 +53,4 @@ members = [
     "src/remote/kairo-remote",
     "src/core/kairo-tree",
     "src/net/tux",
-    "src/net/eywa",
 ]
-resolver = "2"
