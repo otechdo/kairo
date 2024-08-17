@@ -2,9 +2,10 @@
 name = "kairo-web"
 version = "0.0.0"
 edition = "2021"
-description = ""
+description = "Run a http server the current directory"
 license = "GPL-3.0-or-later"
 repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-web"
 readme = "README.md"
-
+keywords = ["html","server", "web"]
+categories = ["development-tools"]
 [dependencies]
