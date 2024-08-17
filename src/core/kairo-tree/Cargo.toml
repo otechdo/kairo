@@ -7,5 +7,5 @@ repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-tree"
 readme = "README.md"
 description = "Display a repository like tree"
 keywords = ["repository", "kairo", "tree"]
-
+categories = ["development-tools"]
 [dependencies]
