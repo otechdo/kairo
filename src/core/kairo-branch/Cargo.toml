@@ -2,9 +2,10 @@
 name = "kairo-branch"
 version = "0.0.0"
 edition = "2021"
-description = ""
+description = "gestion of branches"
 license = "GPL-3.0-or-later"
 repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-branch"
 readme = "README.md"
-
+keywords = ["branch","gestion"]
+categories = ["development-tools"]
 [dependencies]

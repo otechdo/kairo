@@ -2,9 +2,10 @@
 name = "kairo-diff"
 version = "0.0.0"
 edition = "2021"
-description = ""
+description = "show diff beetween the tree and source"
 license = "GPL-3.0-or-later"
 repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-diff"
 readme = "README.md"
-
+keywords = ["diff","modifications","display"]
+categories = ["development-tools"]
 [dependencies]

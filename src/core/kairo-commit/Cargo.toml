@@ -2,11 +2,11 @@
 name = "kairo-commit"
 version = "0.0.0"
 edition = "2021"
-description = ""
+description = "commit source code"
 license = "GPL-3.0-or-later"
 repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-commit"
 readme = "README.md"
+keywords = ["commit"]
+categories = ["development-tools"]
 
 [dependencies]
-chrono = "0.4.38"
-inquire = "0.7.5"

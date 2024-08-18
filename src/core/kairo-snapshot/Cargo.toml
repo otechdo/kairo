@@ -2,9 +2,11 @@
 name = "kairo-snapshot"
 version = "0.0.0"
 edition = "2021"
-description = ""
+description = "management of commits's snapshot"
 license = "GPL-3.0-or-later"
 repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-snapshot"
 readme = "README.md"
+keywords = ["commit", "archive", "snapshot", "managment"]
+categories = ["development-tools"]
 
 [dependencies]

@@ -2,9 +2,11 @@
 name = "kairo-log"
 version = "0.0.0"
 edition = "2021"
-description = ""
+description = "display commit logs"
 license = "GPL-3.0-or-later"
 repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-log"
 readme = "README.md"
+keywords = ["log", "repository", "display", "search", "order"]
+categories = ["development-tools"]
 
 [dependencies]

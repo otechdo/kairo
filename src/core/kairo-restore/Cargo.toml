@@ -2,9 +2,11 @@
 name = "kairo-restore"
 version = "0.0.0"
 edition = "2021"
-description = ""
+description = "restore file or directory content"
 license = "GPL-3.0-or-later"
 repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-restore"
 readme = "README.md"
+keywords = ["restore", "directory", "file", "latest"]
+categories = ["development-tools"]
 
 [dependencies]

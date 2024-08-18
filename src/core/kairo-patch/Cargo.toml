@@ -2,9 +2,11 @@
 name = "kairo-patch"
 version = "0.0.0"
 edition = "2021"
-description = ""
+description = "generate a patch"
 license = "GPL-3.0-or-later"
 repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-patch"
 readme = "README.md"
+keywords = ["patch", "repository", "issues", "work"]
+categories = ["development-tools"]
 
 [dependencies]

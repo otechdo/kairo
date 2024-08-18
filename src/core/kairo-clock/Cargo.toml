@@ -2,8 +2,11 @@
 name = "kairo-clock"
 version = "0.0.0"
 edition = "2021"
-description = ""
+description = "display the time for different timezones"
 license = "GPL-3.0-or-later"
 readme = "README.md"
 repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-clock"
+keywords = ["clocks", "world", "europ", "usa", "timezones"]
+categories = ["development-tools"]
+
 [dependencies]

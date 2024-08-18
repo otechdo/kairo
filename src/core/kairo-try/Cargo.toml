@@ -1,0 +1,12 @@
+[package]
+name = "kairo-try"
+version = "0.0.0"
+edition = "2021"
+description = "try"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-try/"
+readme = "README.md"
+keywords = ["commit", "amend", "message"]
+categories = ["development-tools"]
+
+[dependencies]

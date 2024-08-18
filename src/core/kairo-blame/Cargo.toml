@@ -2,9 +2,11 @@
 name = "kairo-blame"
 version = "0.0.0"
 edition = "2021"
-description = ""
+description = "display who have modified"
 license = "GPL-3.0-or-later"
 repository = "https://github.com/otechdo/kairo/tree/main/src/core/kairo-blame"
 readme = "README.md"
+keywords = ["file", "blame", "author", "who"]
+categories = ["development-tools"]
 
 [dependencies]

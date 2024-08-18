@@ -1,0 +1,10 @@
+[package]
+name = "kairo-clone"
+version = "0.0.0"
+edition = "2021"
+description = ""
+license = "GPL-3.0-or-later"
+repository = "https://github.com/otechdo/kairo/tree/main/src/net/remote/kairo-clone"
+readme = "README.md"
+
+[dependencies]

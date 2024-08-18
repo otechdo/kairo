@@ -1,9 +1,0 @@
-[package]
-name = "kairo-issues"
-version = "0.0.0"
-edition = "2021"
-description = ""
-license = "GPL-3.0-or-later"
-readme = "README.md"
-repository = "https://github.com/otechdo/kairo/tree/main/src/remote/kairo-issues"
-[dependencies]
