@@ -46,6 +46,6 @@ members = [
     "src/teams/manager/kairo-review",
     "src/teams/manager/teams",
     "src/teams/manager/kairo-todo",
-    "src/teams/manager/kairo-invoice", "src/core/kairo-show", "src/core/kairo-checkout",
+    "src/teams/manager/kairo-invoice", "src/core/kairo-show", "src/core/kairo-checkout", "src/core/kairo-add",
 ]
 resolver = "2"
